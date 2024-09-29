@@ -4,7 +4,7 @@
 #define MAXN 11 // Polinômios de grau 0 até 10
 
 void mostra_polinomio(float polinomio[], int grau);
-void limpa_polinomio(float polinomio[]); //Função para limpar vetor de polinômio com valores residuais de operações passadas
+void limpa_polinomio(float polinomio[]); //Função para limpar vetor de polinômio evitando valores residuais de operações passadas
 void produto_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], int grau1, int grau2, int grauProduto);
 int soma_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], int grau1, int grau2);
 float calcula_valor(float polinomio[], int grau, float x);
@@ -34,12 +34,12 @@ int main(){
             do{
                 printf("---> ");
                 scanf("%d", &grau);
-                if (grau < 0 || grau > 10)
+                if (grau < 0 || grau > MAXN - 1)
                 {
                     printf("Valor nao suportado. (Min = 0; Max = 10)\n\n ");
                 }
                 
-            } while (grau < 0 || grau > 10);
+            } while (grau < 0 || grau > MAXN - 1);
 
             // leitura do polinômio
             printf("Insira os coeficientes do polinomio de forma crescente\n---> ");
@@ -67,12 +67,12 @@ int main(){
             do{
                 printf("---> ");
                 scanf("%d", &grau1);
-                if (grau1 < 0 || grau1 > 10)
+                if (grau1 < 0 || grau1 > MAXN - 1)
                 {
                     printf("Valor nao suportado. (Min = 0; Max = 10)\n\n ");
                 }
                 
-            } while (grau1 < 0 || grau1 > 10);
+            } while (grau1 < 0 || grau1 > MAXN - 1);
 
             // leitura do primeiro polinômio
             printf("Insira os coeficientes do polinomio de forma crescente\n---> ");
@@ -85,12 +85,12 @@ int main(){
             do{
                 printf("---> ");
                 scanf("%d", &grau2);
-                if (grau2 < 0 || grau2 > 10)
+                if (grau2 < 0 || grau2 > MAXN - 1)
                 {
                     printf("Valor nao suportado. (Min = 0; Max = 10)\n\n ");
                 }
                 
-            } while (grau2 < 0 || grau2 > 10);
+            } while (grau2 < 0 || grau2 > MAXN - 1);
 
             // leitura do polinômio 2
             printf("Insira os coeficientes do polinomio de forma crescente\n---> ");
@@ -116,16 +116,17 @@ int main(){
         {
             int grau1, grau2, grauProduto;
 
+            printf("Restrição: A soma dos graus dos polinomios produtos nao pode ser maior que 10\n");
             printf("Insira o grau do primeiro polinomio (Min = 0; Max = 10)\n");
             do{
                 printf("---> ");
                 scanf("%d", &grau1);
-                if (grau1 < 0 || grau1 > 10)
+                if (grau1 < 0 || grau1 > MAXN - 1)
                 {
                     printf("Valor nao suportado. (Min = 0; Max = 10)\n\n ");
                 }
                 
-            } while (grau1 < 0 || grau1 > 10);
+            } while (grau1 < 0 || grau1 > MAXN - 1);
 
             // leitura do primeiro polinômio
             printf("Insira os coeficientes do polinomio de forma crescente\n---> ");
@@ -138,12 +139,12 @@ int main(){
             do{
                 printf("---> ");
                 scanf("%d", &grau2);
-                if (grau2 < 0 || grau2 > 10)
+                if (grau2 < 0 || grau2 > MAXN - 1)
                 {
                     printf("Valor nao suportado. (Min = 0; Max = 10)\n\n ");
                 }
                 
-            } while (grau2 < 0 || grau2 > 10);
+            } while (grau2 < 0 || grau2 > MAXN - 1);
 
             // leitura do polinômio 2
             printf("Insira os coeficientes do polinomio de forma crescente\n---> ");
@@ -152,7 +153,15 @@ int main(){
                 scanf("%f", &polinomio2[i]);
             }
 
-            grauProduto = grau1 * grau2;
+            grauProduto = grau1 + grau2;
+
+            if (grauProduto > MAXN - 1){
+                printf("\nNao sera possivel realizar operacao. O polinomio resultante tem grau maior que 10.\n");
+                continue;
+
+                //Como o tamanho máximo do polinômio foi definido como 10, não é possível realizar multiplicação
+                //onde o polinômio produto tenha grau maior que 10
+            }
 
             produto_polinomios(polinomio1, polinomio2, polinomio3, grau1, grau2, grauProduto);
 
@@ -168,7 +177,7 @@ int main(){
         }
         else if (option != 4)
         {
-            printf("Opção inválida");
+            printf("\nOpção inválida\n");
         }
 
     
@@ -223,6 +232,17 @@ int soma_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], 
 }
 
 void produto_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], int grau1, int grau2, int grauProduto){
+
+    limpa_polinomio(polinomio3); //Garantir que todos o polinômio de saída tenha todos os valores 0 para realizar as adições a seguir.
+
+    for (int i = 0; i <= grau1; i++)
+    {
+        for (int j = 0; j <= grau2; j++)
+        {
+            polinomio3[i + j] += polinomio1[i] * polinomio2[j];
+            //Na multiplicação, o coeficiente é multiplicado e o expoente somado. Logo, o coeficiente resultado recebe posicao i+j no vetor.
+        }
+    }
 
 }
 
