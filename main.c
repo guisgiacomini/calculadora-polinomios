@@ -5,6 +5,7 @@
 
 void mostra_polinomio(float polinomio[], int grau);
 void limpa_polinomio(float polinomio[]); //Função para limpar vetor de polinômio com valores residuais de operações passadas
+void produto_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], int grau1, int grau2, int grauProduto);
 int soma_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], int grau1, int grau2);
 float calcula_valor(float polinomio[], int grau, float x);
 
@@ -111,6 +112,65 @@ int main(){
 
         }
 
+        else if (option == 3)
+        {
+            int grau1, grau2, grauProduto;
+
+            printf("Insira o grau do primeiro polinomio (Min = 0; Max = 10)\n");
+            do{
+                printf("---> ");
+                scanf("%d", &grau1);
+                if (grau1 < 0 || grau1 > 10)
+                {
+                    printf("Valor nao suportado. (Min = 0; Max = 10)\n\n ");
+                }
+                
+            } while (grau1 < 0 || grau1 > 10);
+
+            // leitura do primeiro polinômio
+            printf("Insira os coeficientes do polinomio de forma crescente\n---> ");
+            for (int i = 0; i < grau1 + 1; i++)
+            {
+                scanf("%f", &polinomio1[i]);
+            }
+
+            printf("Insira o grau do polinomio 2 (Min = 0; Max = 10)\n");
+            do{
+                printf("---> ");
+                scanf("%d", &grau2);
+                if (grau2 < 0 || grau2 > 10)
+                {
+                    printf("Valor nao suportado. (Min = 0; Max = 10)\n\n ");
+                }
+                
+            } while (grau2 < 0 || grau2 > 10);
+
+            // leitura do polinômio 2
+            printf("Insira os coeficientes do polinomio de forma crescente\n---> ");
+            for (int i = 0; i < grau2 + 1; i++)
+            {
+                scanf("%f", &polinomio2[i]);
+            }
+
+            grauProduto = grau1 * grau2;
+
+            produto_polinomios(polinomio1, polinomio2, polinomio3, grau1, grau2, grauProduto);
+
+            printf("\nProduto entre:\n");
+            mostra_polinomio(polinomio1, grau1);
+            mostra_polinomio(polinomio2, grau2);
+            printf("\nResultado: ");
+            mostra_polinomio(polinomio3, grauProduto);
+
+            limpa_polinomio(polinomio1);
+            limpa_polinomio(polinomio2);
+            limpa_polinomio(polinomio3);
+        }
+        else if (option != 4)
+        {
+            printf("Opção inválida");
+        }
+
     
     } while (option != 4);
 
@@ -161,6 +221,11 @@ int soma_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], 
 
     return maiorGrau; //grau do poliômio resultante é o mesmo do maior grau entre os dois que estão sendo somadados
 }
+
+void produto_polinomios(float polinomio1[], float polinomio2[], float polinomio3[], int grau1, int grau2, int grauProduto){
+
+}
+
 
 void limpa_polinomio(float polinomio[])
 {
